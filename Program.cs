@@ -7,6 +7,67 @@ namespace The_Math_Game
         public static Random rnd = new Random();
         public static int correctAnswers = 0; //Counts the users Correct answers
 
+        static void Main(string[] args)
+        {
+            bool tryAgain = true;
+            while (tryAgain == true)
+            {
+                Welcome();
+
+                Console.Write("Do you want to play again? \n[Yes]/No: ");
+                string userAnswer = Console.ReadLine();
+                if (userAnswer == "No" || userAnswer == "no" || userAnswer == "n" || userAnswer == "N")
+                {
+                    tryAgain = false;
+                }
+                Console.Clear();
+            }
+
+
+
+        }
+
+        public static void Welcome()
+        {
+            string[] userChoices = { "Addition", "Subtraction", "Multiplication", "Division" };
+            Menu menu = new Menu(MainTitle(),userChoices);
+            try
+            {
+                int selectedIndex = menu.MainMenu();
+                Console.Clear();
+                
+                Console.Write($"{Title()}\nHow many problems do you want to solve: ");
+                int howManyProblems = int.Parse(Console.ReadLine());
+
+                Console.WriteLine($"Press enter to start your {howManyProblems} {UserChoice(selectedIndex + 1)} problems.");
+                Console.ReadLine();
+
+                switch (selectedIndex)
+                {
+                    case 0:
+                        Addition(howManyProblems);
+                        break;
+                    case 1:
+                        Subtraction(howManyProblems);
+                        break;
+                    case 2:
+                        Multiplication(howManyProblems);
+                        break;
+                    case 3:
+                        Division(howManyProblems);
+                        break;
+                    default:
+                        Welcome();
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+        }
+
         /*Returns 2 random Ints between 1-20
         ====================================*/
         public static Tuple<int,int> TwoRng()
@@ -47,7 +108,7 @@ namespace The_Math_Game
             catch (Exception)
             {
                 Console.Clear();
-                Console.WriteLine($"Please try again.. Heres your {howManyProblems} problems");
+                Console.WriteLine($"{Title()}\nPlease try again.. Heres your {howManyProblems} problems");
                 Addition(howManyProblems);
             }
             
@@ -80,7 +141,7 @@ namespace The_Math_Game
             catch (Exception)
             {
                 Console.Clear();
-                Console.WriteLine($"Please try again.. Heres your {howManyProblems} problems");
+                Console.WriteLine($"{Title()}\nPlease try again.. Heres your {howManyProblems} problems");
                 Subtraction(howManyProblems);
             }
             
@@ -114,7 +175,7 @@ namespace The_Math_Game
             catch (Exception)
             {
                 Console.Clear();
-                Console.WriteLine($"Please try again.. Heres your {howManyProblems} problems");
+                Console.WriteLine($"{Title()}\nPlease try again.. Heres your {howManyProblems} problems");
                 Multiplication(howManyProblems);
             }
         }
@@ -152,19 +213,19 @@ namespace The_Math_Game
             catch (Exception)
             {
                 Console.Clear();
-                Console.WriteLine($"Please try again.. Heres your {howManyProblems} problems");
+                Console.WriteLine($"{Title()}\nPlease try again.. Heres your {howManyProblems} problems");
                 Division(howManyProblems);
             }
         }
 
         /*User Interations
          =================*/
-        public static  void Report(int correct, int howMany)
+        public static void Report(int correct, int howMany)
         {
             float calcAnswer = (float)correct / howMany;
             double grade = ((double)Math.Round(calcAnswer, 2) * 100);
 
-            Console.WriteLine($"You got {correct} out of {howMany} correct. Your grade is {grade}%");
+            Console.WriteLine($"\nYou got {correct} out of {howMany} correct. Your grade is {grade}%");
         }
         public static string UserChoice(int userChoice)
         {
@@ -188,72 +249,35 @@ namespace The_Math_Game
             return "Choice not found";
             
         }
-        public static void Welcome()
+
+        /*Titles
+         =================*/
+        public static string MainTitle()
         {
-
-            try
-            {
-                Console.WriteLine("\tWelcome to the Math Games");
-
-                Console.WriteLine($"Please choose what type of problems you want to practice" +
-                    $"\n1. Addition" +
-                    $"\n2. Subtraction" +
-                    $"\n3. Multiplication" +
-                    $"\n4. Division");
-
-                int userChoice = int.Parse(Console.ReadLine());
-                string userChoiceString = UserChoice(userChoice);
-
-                Console.WriteLine($"How many problems?");
-                int howManyProblems = int.Parse(Console.ReadLine());
-
-                Console.WriteLine($"Press enter to start your {howManyProblems} {userChoiceString} problems.");
-                Console.ReadLine();
-
-                switch (userChoice)
-                {
-                    case 1:
-                        Addition(howManyProblems);
-                        break;
-                    case 2:
-                        Subtraction(howManyProblems);
-                        break;
-                    case 3:
-                        Multiplication(howManyProblems);
-                        break;
-                    case 4:
-                        Subtraction(howManyProblems);
-                        break;
-                    default:
-                        Welcome();
-                        break;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
+            return @"
+ _____ _   _  _____   ___  ___  ___ _____ _   _    _____   ___  ___  ___ _____ 
+|_   _| | | ||  ___|  |  \/  | / _ \_   _| | | |  |  __ \ / _ \ |  \/  ||  ___|
+  | | | |_| || |__    | .  . |/ /_\ \| | | |_| |  | |  \// /_\ \| .  . || |__  
+  | | |  _  ||  __|   | |\/| ||  _  || | |  _  |  | | __ |  _  || |\/| ||  __| 
+  | | | | | || |___   | |  | || | | || | | | | |  | |_\ \| | | || |  | || |___ 
+  \_/ \_| |_/\____/   \_|  |_/\_| |_/\_/ \_| |_/   \____/\_| |_/\_|  |_/\____/ 
+    
+   Please choose what type of problems you want to practice by highlighting the 
+   choices using the arrow keys and pressing Enter to select.
+";
         }
 
-        static void Main(string[] args)
+        public static string Title()
         {
-            bool tryAgain = true;
-            while (tryAgain == true)
-            {
-                Welcome();
+            return @"
+ _____ _   _  _____   ___  ___  ___ _____ _   _    _____   ___  ___  ___ _____ 
+|_   _| | | ||  ___|  |  \/  | / _ \_   _| | | |  |  __ \ / _ \ |  \/  ||  ___|
+  | | | |_| || |__    | .  . |/ /_\ \| | | |_| |  | |  \// /_\ \| .  . || |__  
+  | | |  _  ||  __|   | |\/| ||  _  || | |  _  |  | | __ |  _  || |\/| ||  __| 
+  | | | | | || |___   | |  | || | | || | | | | |  | |_\ \| | | || |  | || |___ 
+  \_/ \_| |_/\____/   \_|  |_/\_| |_/\_/ \_| |_/   \____/\_| |_/\_|  |_/\____/ 
 
-                Console.Write("Do you want to play again? \n[Yes]/No: ");
-                string userAnswer = Console.ReadLine();
-                if (userAnswer == "No" || userAnswer == "no" || userAnswer == "n" || userAnswer == "N")
-                {
-                    tryAgain = false;
-                }
-                Console.Clear();
-            }
-                
-            
-            
+";
         }
     }
 }
